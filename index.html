@@ -7,9 +7,13 @@
     <meta name='author' content='Xing'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <style>
+@font-face {
+  font-family: Comfortaa;
+  src: url('/comfortaa-regular.ttf') format('truetype');
+}
 html, body{
   font-size: 16px;
-  font-family: Helvetica, sans-serif
+  font-family: Comfortaa, Helvetica, sans-serif
 }
 body {
   margin: 1rem;
@@ -74,12 +78,11 @@ label:hover {
     <li>Subtract 1 second: -</li>
   </ul>
 </section>
-<audio controls src=https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3>
 <script>
 const TOSSUP = 5 * 1000
 const BONUS = 20 * 1000
 
-
+const chime = new Audio('/danmitch3ll-chime.wav');
 const now = performance.now.bind(performance)
 
 let time = TOSSUP
@@ -139,6 +142,8 @@ function draw(){
     pause.checked ? '#abf' : // paused
     time < 6000 ? '#bf8' : // tossup or late bonus
     '#8fb' // early bonus
+  
+  if(!pause.checked && time > 0 && time < 100) chime.play()
     
   pause.nextElementSibling.textContent =
     pause.checked ? 'Play' : 'Pause'

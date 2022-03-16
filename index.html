@@ -51,6 +51,7 @@ label:hover {
   align-items: stretch;
   justify-content: center;
   font-size: 20vmin;
+  margin-bottom: -3vmin;
 }
 #timer>:first-child{
   text-align: right;
@@ -75,6 +76,8 @@ label:hover {
   <label for=add>+ 1 s</label>
   <input id=pause type=checkbox checked>
   <label for=pause>Play</label>
+  <input id=reset type=button>
+  <label for=reset>Reset</label>
   <input id=subtract type=button>
   <label for=subtract>- 1 s</label>
 </form>
@@ -82,6 +85,7 @@ label:hover {
   Keyboard shortcuts:
   <ul>
     <li>Play/pause: &lt;space&gt;</li>
+    <li>Reset: 0</li>
     <li>Toss-up: 1</li>
     <li>Bonus: 2</li>
     <li>Add 1 second: +</li>
@@ -106,11 +110,13 @@ const timer = $('timer')
 const pause = $('pause')
 const add = $('add')
 const subtract = $('subtract')
+const reset = $('reset')
 const tossup = $('tossup')
 const bonus = $('bonus')
 
 add.call = () => time += 1000
 subtract.call = () => time -= 1000
+reset.call = () => time = tossup.checked ? TOSSUP : BONUS
 tossup.call = () => {
   tossup.checked = true
   time = TOSSUP
@@ -122,6 +128,7 @@ bonus.call = () => {
 
 add.addEventListener('click',add.call)
 subtract.addEventListener('click',subtract.call)
+reset.addEventListener('click',reset.call)
 
 tossup.addEventListener('input',tossup.call)
 bonus.addEventListener('input',bonus.call)
@@ -130,6 +137,8 @@ document.addEventListener('keydown', event => {
   console.log(event.key)
   switch(event.key){
     case ' ': pause.checked = !pause.checked 
+      break
+    case '0': reset.call()
       break
     case '1': tossup.call()
       break
